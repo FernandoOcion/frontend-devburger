@@ -1,0 +1,18 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"organizeImports": {
+		"ignore": ["scripts/*.js"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab",
+		"lineWidth": 60
+	},
+	"linter": {
+		"enabled": false
+	},
+	"javascript": {
+		"jsxRuntime": "reactClassic"
+	},
+	"biome.organizeImports.removeUnused": false
+}
