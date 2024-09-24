@@ -4,21 +4,28 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import LoginImg from "../../assets/9 1login-image.svg";
 import Logo from "../../assets/burger 2logo.svg";
-import Button from "../../components/Button";
-import { api } from "../../services/api";
+import { Button, ErrorMessage } from "../../components";
+import apiCode from "../../services/api";
 import { toast } from "react-toastify";
+import { useUser } from "../../hooks/UserContext";
+import {
+	Link,
+	useHistory,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 import {
 	Click,
 	Container,
 	ContainerItens,
-	ErrorMessage,
 	Input,
 	Label,
 	LoginImage,
 } from "./styles";
 
-function Login() {
+export function Login() {
+	const history = useHistory();
+	const { putUserData } = useUser();
+
 	const schema = Yup.object({
 		email: Yup.string()
 			.email("Digite um e-mail válido.")
@@ -37,8 +44,8 @@ function Login() {
 	});
 
 	const onSubmit = async (clientData) => {
-		const response = await toast.promise(
-			api.post("session", {
+		const { data } = await toast.promise(
+			apiCode.post("sessions", {
 				email: clientData.email,
 				password: clientData.password,
 			}),
@@ -49,7 +56,15 @@ function Login() {
 			},
 		);
 
-		console.log(response);
+		putUserData(data);
+
+		setTimeout(() => {
+			if (data.admin) {
+				history.push("/pedidos");
+			} else {
+				history.push("/");
+			}
+		}, 1000);
 	};
 
 	return (
@@ -66,7 +81,9 @@ function Login() {
 						{...register("email")}
 						error={errors.email?.message}
 					/>
-					<ErrorMessage>{errors.email?.message}</ErrorMessage>
+					<ErrorMessage>
+						{errors.email?.message}
+					</ErrorMessage>
 
 					<Label>Senha</Label>
 					<Input
@@ -74,17 +91,20 @@ function Login() {
 						{...register("password")}
 						error={errors.password?.message}
 					/>
-					<ErrorMessage>{errors.password?.message}</ErrorMessage>
+					<ErrorMessage>
+						{errors.password?.message}
+					</ErrorMessage>
 
 					<Button type="submit">Entrar</Button>
 				</form>
 
 				<Click>
-					Não possui conta? <a>Clique Aqui!</a>
+					Não possui conta?{" "}
+					<Link style={{ color: "white" }} to="/cadastro">
+						Clique Aqui!
+					</Link>
 				</Click>
 			</ContainerItens>
 		</Container>
 	);
 }
-
-export default Login;

@@ -1,17 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Login from "./containers/Login";
-import Register from "./containers/Register";
+import Routes from "./routes/routes";
 import GlobalStyles from "./styles/globalStyles";
 import { ToastContainer } from "react-toastify";
+import AppProvider from "./hooks";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root"),
 );
 root.render(
 	<>
-		<Login />
-		<ToastContainer />
+		<AppProvider>
+			<Routes />
+		</AppProvider>
+
+		<ToastContainer autoClose={2000} />
 		<GlobalStyles />
 	</>,
 );
