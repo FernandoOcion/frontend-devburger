@@ -126,7 +126,7 @@ function NewProduct() {
 						)}
 						<input
 							type="file"
-							accept="image/png, image/jpeg"
+							accept="image/png, image/jpeg, image/svg , image/webp"
 							{...register("file")}
 							onChange={(value) => {
 								setFileName(value.target.files[0]?.name);

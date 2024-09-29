@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const apiCode = axios.create({
-	baseURL: "http://localhost:3001",
+	baseURL:
+		"https://burger-api-20-production.up.railway.app",
 });
 
 apiCode.interceptors.request.use(async (config) => {
